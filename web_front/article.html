@@ -205,6 +205,67 @@
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.3/bootbox.min.js'></script>
+
+    <script src="./js/template-web.js"></script>
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/article.js"></script>
+    <script src="./js/util/comment.js"></script>
+
+    <!-- 引入日期时间的js库 dayjs -->
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+
+<script id="tmp" type="text/html">
+{{each data item}}
+
+{{/each}}
+</script>
+
+
+<script>
+        dayjs.locale('zh-cn') ; // 全局设置，中文
+        // 使用插件
+        dayjs.extend(dayjs_plugin_relativeTime);
+        // 获取ID
+        var id = location.search.substr(4);
+        // 2. 调用接口，获取这篇文章的详情，显示到页面上
+        article.getDetail(id).then(function(res){
+            console.log(res);
+            if(res.code == 200){
+                var t = res.data
+                // 给对应的dom元素赋值
+                $('#author').html( t.author);
+                $('#comment').html(t.comment);
+                $('#content').html(t.content);
+                $('#date').html(t.date);
+                //上，下文章导航
+                // 有的文章有一篇，有的可能没有，所以要先判断一下。
+                if(t.prev) {
+                    $('#prev').attr('href','./article.html?id='+t.prev.id);
+                    $('#prev').text(t.prev.title);
+                } else {
+                    $('#prev').text('无');
+                }
+                if(t.next) {
+                    $('#next').attr('href','./article.html?id='+t.next.id)
+                    $('#next').text(t.next.title)
+                }else {
+                    $('#next').text('无');
+                }
+
+
+                $('#read').html(t.read);
+                $('#title').html(t.title);
+                $('#type_name').html(t.type_name);
+
+            } 
+        })
+</script>
+
 </body>
 
 </html>
