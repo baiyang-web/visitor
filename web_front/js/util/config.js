@@ -2,10 +2,10 @@
 // 把这个项目中所有用到的接口地址全放在这里
 
 // 所有接口的基地址
-var BASEURL = 'http://localhost:8000'
+let BASEURL = 'http://localhost:8000'
 
 // 用来保存所有的接口信息
-var APILIST = {
+let APILIST = {
   
     // 获取文章分类
     category_get:  BASEURL + '/admin/category_search',

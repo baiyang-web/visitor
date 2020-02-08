@@ -171,12 +171,14 @@
     <script src="./js/util/config.js"></script>
     <script src="./js/util/category.js"></script>
     <script src="./js/util/article.js"></script>
+
     <!-- 1.文章的类型 -->
     <script id="cate" type="text/html">
     {{each data item}}
-    <li><a href="list.html?id={{item.id}}">{{item.name}}</a></li>
+    <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
     {{/each}}
     </script>
+
     <!-- 2.焦点图 -->
     <script id="focus" type="text/html">
         {{each data item idx}}
@@ -190,6 +192,7 @@
         </li>
         {{/each}}
     </script>
+
     <!-- 3.排行榜 -->
 <script id="tmpRank" type="text/html">
     {{each data item idx}}
@@ -212,9 +215,9 @@
         <h4><a href="#">{{item.title}}</a></h4>
         <p>{{item.intro}}</p>
         <div class="new_info">
-            <span>标签：财经&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读({{item.read}})
+            <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读({{item.read}})
                 )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论({{item.comment}})</span>
-            <b>发布于 {{item.data}}</b>
+            <b>发布于 {{item.date}}</b>
         </div>
     </div>
     {{/each}}
@@ -225,7 +228,7 @@
             console.log(res);
             var htmlStr = template("cate", res);
             $("#left_menu").html(htmlStr);
-            $("#left_two_menu").append(htmlStr);
+            $("#level_two_menu").append(htmlStr);
         })
        // 2.显示焦点图
       article.getFouce().then(function (res) {

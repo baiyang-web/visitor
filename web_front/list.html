@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>大事件-列表页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.pagination.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="js/jquery.pagination.min.js"></script>
 </head>
 
 <body>
@@ -66,7 +64,7 @@
                 <!-- 显示文章列表 -->
             </div>
             <!-- 分页 -->
-            <ul id="pagination" class="page"></ul>
+            <ul id="pagination" class="pagination-sm"></ul>
 
 
         </div>
@@ -159,10 +157,10 @@
     <script id="cate" type="text/html">
         {{each data item}}
         <!-- let{id,name} = item; -->
-        {{if item.id == curID}}
-        <li class="cur"><a href="list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{if item.id == curId}}
+        <li class="cur"><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
         {{else}}
-        <li><a href="list.html?id={{item.id}}">{{item.name}}</a></li>
+        <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
         {{/if}}
         {{/each}}
     </script>
@@ -170,14 +168,14 @@
     <script id="tmpNews" type="text/html">
         {{each data item}}
         <div class="common_news_list">
-            <a href="article.html?id={{item.id}}" class="list_pic">
-                <img class="img" data-src="{{item.cover}}" src="images/loading.png" alt=""></a>
-            <h4><a href="article.html?id={{item.id}}">{{item.title}}</a></h4>
+            <a href="./article.html?id={{item.id}}" class="list_pic">
+                <img class="img" data-src="{{item.cover}}" src="./images/loading.png" alt=""></a>
+            <h4><a href="./article.html?id={{item.id}}">{{item.title}}</a></h4>
             <p>{{item.content}}</p>
             <div class="new_info">
-                <span>标签：财经&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读({{item.read}})
+                <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读({{item.read}})
                     )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论({{item.comment}})</span>
-                <b>发布于 {{item.data}}</b>
+                <b>发布于 {{item.date}}</b>
             </div>
         </div>
         {{/each}}
@@ -186,29 +184,29 @@
     <script id="tmpRank" type="text/html">
         {{each data item idx}}
             {{if idx == 0}}
-            <li><span class="first">{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+            <li><span class="first">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else if idx == 1}}
-            <li><span class="second">{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+            <li><span class="second">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else if idx == 2}}
-            <li><span class="third">{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+            <li><span class="third">{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{else}}
-            <li><span>{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+            <li><span>{{idx+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
             {{/if}}
         {{/each}}
     </script>
 
     <script>
         // 1.从地址栏中获取ID
-        var id = window.location.search.substr(4);
+        let id = window.location.search.substr(4);
         // 2.显示导航菜单栏
         category.get().then(function (res) {
 
             // 补充一个属性来保存当前的类别编号
-            var curID = id;
+             res.curId = id;
             var htmlStr = template("cate", res);
             $("#left_menu").html(htmlStr);
-            $("#left_two_menu").append(htmlStr);
-            let { data, name } = res;
+            $("#level_two_menu").append(htmlStr);
+            let {data} = res;
             data.forEach(function (item) {
                 console.log(item);
                 // let{id,name} = item;
@@ -219,7 +217,7 @@
             })
         })
         // 3.显示文章列表
-        var curPage = 1;
+        let curPage = 1;
         // 进行调用
         getAndShow();
         // 4.热门排行
@@ -240,7 +238,7 @@
          function getAndShow() {
              article.getList(id,curPage).then(function (res) {
                  console.log(res);
-                 var htmlStr = template("tmpNews",res);
+                 let htmlStr = template("tmpNews",res);
                  $("#list").html(htmlStr);
                  // 懒加载 它会自动挂到jquery上
                  $(".img").lazyload();
@@ -249,7 +247,7 @@
                     return 
                 }
                 // 分页的基础代码 不需要熟记 用的时候查看就可以
-                $('#pagination').twbsPagination({             
+                $("#pagination").twbsPagination({            
                     initiateStartPageClick:false,
                     totalPages: res.pages, // 总页数
                     // 这个visiblePages有什么用处？

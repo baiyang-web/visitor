@@ -1,6 +1,6 @@
 // 把所有与文章相关的操作写在这里
 
-var article = {
+let article = {
 
  //获取主页中的数据
     getFouce: () =>  $.get(APILIST.article_get,{perpage:5}),
