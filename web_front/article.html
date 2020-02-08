@@ -84,11 +84,11 @@
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input type="text" placeholder="请输入用户名" class="comment_name" id="comment_name">
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea placeholder="请发表您的评论" class="comment_input" id="comment_content"></textarea>
                 </div>
                 <div class="form_group">
                     <input type="button" name="" value="评 论" class="comment_sub"></div>
@@ -219,8 +219,10 @@
             console.log(res);
             let { code } = res;
             if (code == 200) {
-                //    data = t
+            //    var t = res.data
                 let { data } = res;
+                // console.log(t);
+                
                 let { author,
                     comment,
                     content,
