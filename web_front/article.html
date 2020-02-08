@@ -264,6 +264,32 @@
 
             } 
         })
+        // 3.获取并显示评论
+     
+        // 4.添加评论
+        $('#btn').click(function(){
+            // - 收集用户信息
+            var name = $('#comment_name').val().trim()
+            var content = $('#comment_content').val().trim()
+
+            if(name.length === 0 || content.length ===0){
+                bootbox.alert("不能为空");
+                return;
+            }
+
+            // - 调用接口，根据反馈做后续动作
+            comment.add(name,content, id).then(function(res){
+                console.log(res);
+                if(res.code === 200) {
+                    // 评论成功
+                    // 1. 清空评论区域
+                    $('#comment_name').val('')
+                    $('#comment_content').val('')
+                    // 2. 去重新加载评论并显示
+                    getComment()
+                }
+            })
+        })
 </script>
 
 </body>
